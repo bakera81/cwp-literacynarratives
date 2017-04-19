@@ -43,7 +43,7 @@ def match_id(data, name, year):
         @return: if an match is found, a tuple of id, name; else False
     """
     print("Attempting to match id...")
-    for id_name, year_text in data.items(): # The dict is unordered, which causes tests to fail. 
+    for id_name, year_text in data.items(): # The dict is unordered, which causes tests to fail.
         old_id = id_name[0]
         old_name = id_name[1]
         old_year = year_text[0]
@@ -158,6 +158,7 @@ def test_match_id():
 
         pdb.set_trace()
 
+        # TODO 2017 - 2014 is still four years, how are ambiguous cases handled? (it should be marked as ambiguous)
         if match_id(data, 'Anthony', '2011') == (1, 'Anthony') \
             and match_id(data, 'Anthony', '2017') == (3, 'Anthony') \
             and match_id(data, 'Anthony', '2013') == (1, 'Anthony') \
@@ -170,6 +171,12 @@ def run_tests():
     test_match_id()
 
 
+# DataFrame:
+###########################
+# ID # NAME # YEAR # TEXT #
+###########################
+
+
 
 #TO DO:
 # confirm data types (int vs string)
@@ -178,6 +185,7 @@ def run_tests():
 # create unit test function
 # add error reporting for non-unique year, name keys
 # package in an executable
+
 
 
 
