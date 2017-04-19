@@ -1,5 +1,6 @@
 **.yml
 **.txt
-**.csv
-data/
 client_secrets.json
+data/
+__pycache__/
+.DS_Store

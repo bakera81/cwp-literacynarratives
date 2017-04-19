@@ -7,13 +7,13 @@ import pdb
 
 
 # FOLDER IDS
-with open("../db/email_api.yml", 'r') as stream:
+with open("folder_ids.yml", 'r') as stream:
     try:
         credentials = yaml.load(stream)
     except yaml.YAMLError as exc:
         print(exc)
 
-CWP-PRESERVE = credentials['CWP-PRESERVE']
+CWPPRESERVE = credentials['CWPPRESERVE']
 ORIGINALS = credentials['ORIGINALS']
 WORDDOCS = credentials['WORDDOCS']
 TEXTDOCS = credentials['TEXTDOCS']
@@ -43,15 +43,17 @@ def match_id(data, name, year):
         @return: if an match is found, a tuple of id, name; else False
     """
     print("Attempting to match id...")
-    for id_name, year_text in data.items():
+    for id_name, year_text in data.items(): # The dict is unordered, which causes tests to fail. 
         old_id = id_name[0]
         old_name = id_name[1]
         old_year = year_text[0]
 
-        if name == old_name and abs(author['year'] - old_year) <= 4: #searching user ids in reverse chronological order may be more accurate
-            return (old_id, old_name)
-        else:
-            return False
+        pdb.set_trace()
+
+        if name == old_name and abs(int(year) - int(old_year)) <= 4: # searching user ids in reverse chronological order may be more accurate
+            return (int(old_id), old_name)
+
+    return False
 
 
 def create_google_docs(drive):
@@ -148,15 +150,17 @@ def test_match_id():
      3. read in CSV of results, confirm match.
     """
     print("testing match_id()...")
-    with open('unit_test_1.csv', 'r') as csvfile:
+    with open('tests/unit_test_1.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         data = {}
         for row in reader:
             data[(row['id'], row['name'])] = (row['year'], row['text'])
 
-        if match_id(data, 'Anthony', '2011') == (1, 'Anthony')
-            and match_id(data, 'Anthony', '2017') == (3, 'Anthony')
-            and match_id(data, 'Anthony', '2013') == (1, 'Anthony')
+        pdb.set_trace()
+
+        if match_id(data, 'Anthony', '2011') == (1, 'Anthony') \
+            and match_id(data, 'Anthony', '2017') == (3, 'Anthony') \
+            and match_id(data, 'Anthony', '2013') == (1, 'Anthony') \
             and match_id(data, 'Anthony',  '2015') == (1, 'Anthony'):
             print("TEST PASSED.")
         else:
